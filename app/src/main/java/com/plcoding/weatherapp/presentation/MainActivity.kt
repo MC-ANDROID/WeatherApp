@@ -11,6 +11,7 @@ import androidx.compose.material.Text
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.plcoding.weatherapp.presentation.ui.theme.WeatherAppTheme
+import io.ktor.client.HttpClient
 import org.koin.android.ext.android.inject
 import org.koin.core.qualifier.named
 import java.text.SimpleDateFormat
@@ -20,6 +21,8 @@ import java.util.Locale
 class MainActivity : ComponentActivity() {
 
     val appName by inject<String>(named("app_name"))
+    // TODO: move this away from the UI laYer
+    val httpClient by inject<HttpClient>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,6 +43,7 @@ class MainActivity : ComponentActivity() {
                     ) {
                         Text(text = currentDate)
                         Text(text = appName)
+                        Text(text = "$httpClient")
                     }
                 }
             }
