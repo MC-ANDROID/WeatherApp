@@ -1,7 +1,6 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
-    id 'kotlin-kapt'
     id 'org.jetbrains.kotlin.plugin.compose'
     id 'com.google.devtools.ksp'
 }
@@ -67,11 +66,6 @@ dependencies {
 
     // Location Services
     implementation 'com.google.android.gms:play-services-location:21.3.0'
-
-    // Retrofit
-    implementation 'com.squareup.retrofit2:retrofit:3.0.0'
-    implementation 'com.squareup.retrofit2:converter-moshi:3.0.0'
-    implementation "com.squareup.okhttp3:logging-interceptor:5.1.0"
 
     implementation "androidx.lifecycle:lifecycle-viewmodel-compose:2.9.3"
 
