@@ -8,3 +8,6 @@
 - Target API: 36
 - [Hilt](https://dagger.dev/hilt/) replaced with [Koin](https://insert-koin.io/)
 - [Retrofit](https://square.github.io/retrofit/) replaced with [Ktor](https://ktor.io/)
+
+## Screenshot
+  <img src="app.png" width="33%"/>
