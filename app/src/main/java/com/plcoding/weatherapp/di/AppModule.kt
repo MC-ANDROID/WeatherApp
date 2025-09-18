@@ -1,5 +1,8 @@
 package com.plcoding.weatherapp.di
 
+import android.content.Context
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
 import org.koin.core.annotation.ComponentScan
 import org.koin.core.annotation.Module
 import org.koin.core.annotation.Single
@@ -15,5 +18,10 @@ class AppModule {
     @Named("app_name")
     fun provideAppName(): String {
         return "Weather App"
+    }
+
+    @Single
+    fun provideFusedLocationProviderClient(app: Context): FusedLocationProviderClient {
+        return LocationServices.getFusedLocationProviderClient(app)
     }
 }

@@ -15,7 +15,7 @@ import org.koin.core.annotation.Single
 @Single
 class DefaultLocationTracker(
     private val fusedLocationProviderClient: FusedLocationProviderClient,
-    private val app: Application
+    private val app: Context
 ): LocationTracker {
     override suspend fun getCurrentLocation(): Location? {
         val hasFinePermission = ContextCompat.checkSelfPermission(
