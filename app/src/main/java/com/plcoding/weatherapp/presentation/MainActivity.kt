@@ -1,59 +1,83 @@
 package com.plcoding.weatherapp.presentation
 
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Scaffold
 import androidx.compose.material.ScaffoldDefaults
 import androidx.compose.material.Text
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.lifecycleScope
-import com.plcoding.weatherapp.data.remote.WeatherApi
+import com.plcoding.weatherapp.presentation.ui.theme.DarkBlue
+import com.plcoding.weatherapp.presentation.ui.theme.DeepBlue
 import com.plcoding.weatherapp.presentation.ui.theme.WeatherAppTheme
-import io.ktor.client.HttpClient
-import kotlinx.coroutines.launch
-import org.koin.android.ext.android.inject
-import org.koin.core.qualifier.named
-import java.text.SimpleDateFormat
-import java.util.Date
-import java.util.Locale
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : ComponentActivity() {
 
-    val appName by inject<String>(named("app_name"))
-
-    // TODO: move these away from the UI laYer
-    val httpClient by inject<HttpClient>()
-    val weatherApi by inject<WeatherApi>()
+    private val viewModel: WeatherViewModel by viewModel()
+    private lateinit var permissionLauncher: ActivityResultLauncher<Array<String>>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        val currentDate =
-                SimpleDateFormat(
-                "dd/MM/yyyy",
-                        Locale.getDefault())
-                    .format(Date())
-        lifecycleScope.launch {
-            val weatherData = weatherApi.getWeatherData(49.13, 23.78)
-            Log.i("WeatherAPI", "$weatherData")
+        permissionLauncher = registerForActivityResult(
+            ActivityResultContracts.RequestMultiplePermissions()
+        ){
+            viewModel.loadWeatherInfo()
         }
+        permissionLauncher.launch(
+            arrayOf(
+                android.Manifest.permission.ACCESS_FINE_LOCATION,
+                android.Manifest.permission.ACCESS_COARSE_LOCATION
+            )
+        )
 
         setContent {
             WeatherAppTheme {
                 Scaffold(contentWindowInsets = ScaffoldDefaults.contentWindowInsets) { innerPadding ->
-                    Column(
-                        modifier = Modifier
-                            .padding(innerPadding)
-                            .padding(horizontal = 20.dp)
-                    ) {
-                        Text(text = currentDate)
-                        Text(text = appName)
-                        Text(text = "$httpClient")
+                    Box {
+                        Column(
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .background(DarkBlue)
+                                .padding(innerPadding)
+                        ) {
+                            WeatherCard(
+                                state = viewModel.state,
+                                bgColor = DeepBlue,
+                            )
+                            Spacer(modifier = Modifier.height(16.dp))
+                            WeatherForecast(
+                                state = viewModel.state
+                            )
+                        }
+                        if (viewModel.state.isLoading) {
+                            CircularProgressIndicator(
+                                modifier = Modifier.align(Alignment.Center)
+                            )
+                        }
+                        viewModel.state.error?.let { error ->
+                            Text(
+                                text = error,
+                                color = Color.Red,
+                                modifier = Modifier
+                                    .align(Alignment.Center)
+                                    .padding(16.dp)
+                            )
+                        }
                     }
                 }
             }
