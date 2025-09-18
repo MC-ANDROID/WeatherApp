@@ -1,6 +1,10 @@
 package com.plcoding.weatherapp.data.remote
 
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
+
+@Serializable
 data class WeatherDto(
-    // "hourly"
+    @SerialName("hourly")
     val weatherData: WeatherDataDto
 )

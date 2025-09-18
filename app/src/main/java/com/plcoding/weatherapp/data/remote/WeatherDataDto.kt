@@ -1,17 +1,20 @@
 package com.plcoding.weatherapp.data.remote
 
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class WeatherDataDto(
-    // "time"
+    @SerialName("time")
     val times: List<String>,
-    // "temperature_2m"
+    @SerialName("temperature_2m")
     val temperatures: List<Double>,
-    // "weather_code"
+    @SerialName("weather_code")
     val weatherCodes: List<Int>,
-    // "pressure_msl"
+    @SerialName("pressure_msl")
     val pressures: List<Double>,
-    // "wind_speed_10m"
+    @SerialName("windspeed_10m")
     val windSpeeds: List<Double>,
-    // "relative_humidity_2m"
+    @SerialName("relative_humidity_2m")
     val humidities: List<Double>
 )
