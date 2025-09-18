@@ -3,7 +3,7 @@ package com.plcoding.weatherapp.data.remote
 
 data class WeatherDataDto(
     // "time"
-    val time: List<String>,
+    val times: List<String>,
     // "temperature_2m"
     val temperatures: List<Double>,
     // "weather_code"
