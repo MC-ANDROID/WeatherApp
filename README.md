@@ -4,5 +4,7 @@
 - Design: [Cuacane - Weather App](https://dribbble.com/shots/17998271-Cuacane-Weather-App)
 
 ## Modifications to the original application
+- Minimum API: 23
+- Target API: 36
 - [Hilt](https://dagger.dev/hilt/) replaced with [Koin](https://insert-koin.io/)
 - [Retrofit](https://square.github.io/retrofit/) replaced with [Ktor](https://ktor.io/)
