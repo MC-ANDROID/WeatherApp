@@ -12,7 +12,8 @@ import org.koin.core.annotation.Named
 @Module
 @ComponentScan(
     "com.plcoding.weatherapp.di",
-    "com.plcoding.weatherapp.data.remote")
+    "com.plcoding.weatherapp.data.remote",
+    "com.plcoding.weatherapp.presentation",)
 class AppModule {
     @Single
     @Named("app_name")
